@@ -43,3 +43,8 @@ class AsyncBaseBenchmark(Awaitable[R], BaseBenchmark[P, R]):
     @abstractmethod
     def function(self) -> Callable[P, Awaitable[R]]:
         ...
+
+    @property
+    @abstractmethod
+    def coroutine(self) -> Awaitable[R]:
+        ...
