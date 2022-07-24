@@ -1,11 +1,9 @@
 from __future__ import annotations
 from collections.abc import Callable, Awaitable
-from typing import Generic, ParamSpec, TypeVar
+from typing import Generic
 from abc import ABC, abstractmethod
 from .helpers import AutoRepr
-
-R = TypeVar("R")
-P = ParamSpec("P")
+from .typeshack import P, R
 
 
 class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
