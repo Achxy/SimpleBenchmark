@@ -1,4 +1,5 @@
 from .helper import repr_fmt
+from typing import final
 
 
 class AutoRepr:
@@ -9,6 +10,7 @@ class AutoRepr:
         self.__repr_data__ = args, kwargs
         return self
 
+    @final
     def __repr__(self) -> str:
         cls = type(self)
         args, kwargs = self.__repr_data__
