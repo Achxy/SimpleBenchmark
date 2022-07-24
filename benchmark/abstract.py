@@ -25,7 +25,7 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
         ...
 
 
-class AsyncBaseBenchmark(BaseBenchmark[P, R]):
+class AsyncBaseBenchmark(Awaitable[R], BaseBenchmark[P, R]):
     @property
     @abstractmethod
     def function(self) -> Callable[P, Awaitable[R]]:
