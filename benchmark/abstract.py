@@ -7,12 +7,15 @@ from .typeshack import P, R
 
 
 class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
-    @abstractmethod
-    def __call__(self, *args: P.args, **kwds: P.kwargs) -> R:
-        ...
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
+        return self.benchmark(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.format_hook(self.perf_counter_delta, self.process_time_delta)
+
+    @abstractmethod
+    def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
+        ...
 
     @abstractmethod
     def format_hook(self, perf_delta_sec: float, process_time_delta_sec: float) -> str:
