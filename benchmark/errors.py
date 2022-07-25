@@ -1,7 +1,11 @@
-NOT_MEASUREd_EXC_MSG = "{name} has not been called to obtain benchmark time"
+_FRAGMENTARY_CAUSE_MSG = "Benchmarking object has not been invoked to obtain values such as result, \
+time delta and other runtime obtainable assesssments"
 
 
-class TimeNotMeasuredError(RuntimeError):
-    def __init__(self, name) -> None:
-        msg = NOT_MEASUREd_EXC_MSG.format(name=name)
-        super().__init__(msg)
+class BenchmarkingError(Exception):
+    pass
+
+
+class FragmentaryBenchmarkError(BenchmarkingError):
+    def __init__(self, msg: str = _FRAGMENTARY_CAUSE_MSG, *args) -> None:
+        super().__init__(msg, *args)
