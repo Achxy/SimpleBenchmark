@@ -3,6 +3,7 @@ from enum import Enum
 
 R = TypeVar("R")
 P = ParamSpec("P")
+Q = TypeVar("Q")
 
 
 class _Sentinel(Enum):
