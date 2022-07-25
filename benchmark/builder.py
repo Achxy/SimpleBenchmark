@@ -42,7 +42,7 @@ class PartialBenchmark(BaseBenchmark[P, R]):
         return self._process_delta
 
     @property
-    def perf_time_delta(self) -> float:
+    def perf_counter_delta(self) -> float:
         if self._perf_delta is None:
             raise FragmentaryBenchmarkError()
         return self._perf_delta
