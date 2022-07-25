@@ -9,7 +9,7 @@ from .errors import TimeNotMeasuredError
 
 class SyncBenchmark(BaseBenchmark[P, R]):
     def __init__(self, func: Callable[P, R]) -> None:
-        self._func = func
+        self._func: Callable[P, R] = func
         self._result: R | Literal[MISSING] = MISSING
         self._process_delta: float | None = None
         self._perf_delta: float | None = None
