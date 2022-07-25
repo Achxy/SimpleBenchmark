@@ -51,8 +51,9 @@ class PartialBenchmark(BaseBenchmark[P, R]):
 class SyncBenchmarkBuilder(PartialBenchmark[P, R]):
     def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
         pc, pt = perf_counter(), process_time()
-        ret: R = self.function(*args, **kwargs)
+        result: R = self.function(*args, **kwargs)
         self._perf_delta = perf_counter() - pc
         self._process_delta = process_time() - pt
+        self._result = result
         self.post_benchmark_hook()
-        return ret
+        return result
