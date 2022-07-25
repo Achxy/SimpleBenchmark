@@ -48,6 +48,7 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
         ...
 
     @property
+    @abstractmethod
     def process_time_delta(self) -> float:
         ...
 
