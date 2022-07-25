@@ -3,7 +3,7 @@ from collections.abc import Callable, Awaitable
 from typing import Generic
 from abc import ABC, abstractmethod
 from .helpers import AutoRepr
-from .typeshack import P, R
+from .typeshack import MISSING, P, R, Q
 
 
 class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
@@ -25,12 +25,21 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
     def post_benchmark_hook(self) -> None:
         ...
 
+    @abstractmethod
+    def get_result(self, sentinel: Q = MISSING) -> R | Q:
+        ...
+
     def show_performance(self) -> None:
         print(self)
 
     @property
     @abstractmethod
     def function(self) -> Callable[P, R]:
+        ...
+
+    @property
+    @abstractmethod
+    def result(self) -> R:
         ...
 
     @property
