@@ -7,20 +7,12 @@ from .helpers import get_name
 from .errors import FragmentaryBenchmarkError
 
 
-class SyncBenchmark(BaseBenchmark[P, R]):
+class PartialBenchmark(BaseBenchmark[P, R]):
     def __init__(self, func: Callable[P, R]) -> None:
         self._func: Callable[P, R] = func
         self._result: R | Literal[MISSING] = MISSING
         self._process_delta: float | None = None
         self._perf_delta: float | None = None
-
-    def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
-        pc, pt = perf_counter(), process_time()
-        ret: R = self.function(*args, **kwargs)
-        self._perf_delta = perf_counter() - pc
-        self._process_delta = process_time() - pt
-        self.post_benchmark_hook()
-        return ret
 
     def post_benchmark_hook(self) -> None:
         self.show_performance()
@@ -54,3 +46,13 @@ class SyncBenchmark(BaseBenchmark[P, R]):
         if self._perf_delta is None:
             raise FragmentaryBenchmarkError()
         return self._perf_delta
+
+
+class SyncBenchmarkBuilder(PartialBenchmark[P, R]):
+    def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
+        pc, pt = perf_counter(), process_time()
+        ret: R = self.function(*args, **kwargs)
+        self._perf_delta = perf_counter() - pc
+        self._process_delta = process_time() - pt
+        self.post_benchmark_hook()
+        return ret
