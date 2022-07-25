@@ -4,9 +4,7 @@ from collections.abc import Callable
 from .typeshack import P, R, MISSING
 from time import perf_counter, process_time
 from .helpers import get_name
-
-
-NOT_MEASUREd_EXC_MSG = "{name} has not been called to obtain benchmark time"
+from .errors import TimeNotMeasuredError
 
 
 class SyncBenchmark(BaseBenchmark[P, R]):
@@ -31,5 +29,13 @@ class SyncBenchmark(BaseBenchmark[P, R]):
     @property
     def process_time_delta(self) -> float:
         if self._process_delta is None:
-            raise
+            name = get_name(self.function, repr(self))
+            raise TimeNotMeasuredError(name)
         return self._process_delta
+
+    @property
+    def perf_time_delta(self) -> float:
+        if self._perf_delta is None:
+            name = get_name(self.function, repr(self))
+            raise TimeNotMeasuredError(name)
+        return self._perf_delta
