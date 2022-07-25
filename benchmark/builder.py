@@ -19,8 +19,11 @@ class SyncBenchmark(BaseBenchmark[P, R]):
         ret: R = self.function(*args, **kwargs)
         self._perf_delta = perf_counter() - pc
         self._process_delta = process_time() - pt
-        self.show_performance()
+        self.post_benchmark_hook()
         return ret
+
+    def post_benchmark_hook(self) -> None:
+        self.show_performance()
 
     @property
     def function(self) -> Callable[P, R]:

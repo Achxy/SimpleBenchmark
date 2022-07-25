@@ -21,6 +21,10 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
     def format_hook(self, perf_delta_sec: float, process_time_delta_sec: float) -> str:
         pass
 
+    @abstractmethod
+    def post_benchmark_hook(self) -> None:
+        ...
+
     def show_performance(self) -> None:
         print(self)
 
