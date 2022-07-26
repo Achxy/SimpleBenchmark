@@ -17,7 +17,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from collections.abc import Callable
 from enum import Enum
-from typing import TYPE_CHECKING, Literal, ParamSpec, TypeAlias, TypeVar
+from typing import (
+    TYPE_CHECKING,
+    Final,
+    Literal,
+    ParamSpec,
+    TypeAlias,
+    TypeVar,
+    ClassVar,
+)
 
 if TYPE_CHECKING:
     from .abstract import SkeletalBaseBenchmark
@@ -47,6 +55,8 @@ class _Sentinel(Enum):
     MISSING = object()
 
 
+Slots: type[tuple[str, ...]] = ClassVar[tuple[str, ...]]
+All: TypeAlias = Final[tuple[str, ...]]
 MISSING: Literal[_Sentinel.MISSING] = _Sentinel.MISSING
 BenchmarkProgenitor: TypeAlias = SkeletalBaseBenchmark
 # NewType is tedious here, simple aliasing aids in legible IDE reccomendations
