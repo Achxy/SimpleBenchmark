@@ -1,4 +1,4 @@
-from .implementation import SyncBenchmark
+from .impl import SyncBenchmark
 from collections.abc import Callable
 from ._internals import default_format_hook, default_post_benchmark_hook
 from .typeshack import P, R, MilliSeconds, FormatHook, PostBenchmarkHook

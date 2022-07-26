@@ -3,7 +3,7 @@ from enum import Enum
 from collections.abc import Callable
 
 if TYPE_CHECKING:
-    from .implementation import SyncBenchmark
+    from .impl import SyncBenchmark
     from .containers import TimingReport
 else:
     SyncBenchmark = TypeVar("SyncBenchmark")
