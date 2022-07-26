@@ -1,4 +1,4 @@
-from .typeshack import AnyBenchmark, PerfDeltaMSec, ProcessDeltaMsec
+from .typeshack import PerfDeltaMSec, ProcessDeltaMsec, BenchmarkProgenitor
 from .containers import TimingReport
 
 
@@ -9,5 +9,5 @@ def default_format_hook(report: TimingReport) -> str:
     return f"{name} took {pf:.2f} Δperf msec and {pt:.2f} Δprocess msec and returned <{result!r}>"
 
 
-def default_post_benchmark_hook(instance) -> None:
+def default_post_benchmark_hook(instance: BenchmarkProgenitor) -> None:
     print(instance)
