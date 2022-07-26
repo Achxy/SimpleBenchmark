@@ -1,10 +1,13 @@
 from __future__ import annotations
-from typing import NamedTuple
-from .typeshack import AnyBenchmark, PerfDeltaMSec, ProcessDeltaMsec, AllBenchmark
+from typing import NamedTuple, TYPE_CHECKING
+from .typeshack import PerfDeltaMSec, ProcessDeltaMsec
+
+if TYPE_CHECKING:
+    from .impl import SyncBenchmark
 
 
 class TimingReport(NamedTuple):
-    instance: AllBenchmark
+    instance: SyncBenchmark
     perf_delta: PerfDeltaMSec
     process_delta: ProcessDeltaMsec
 
