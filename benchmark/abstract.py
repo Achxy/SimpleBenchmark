@@ -21,8 +21,8 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
 from typing import Generic
 
+from ._repr_helper import AutoRepr
 from .containers import TimingReport
-from .helpers import AutoRepr
 from .typeshack import MISSING, P, Q, R
 
 

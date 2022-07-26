@@ -19,10 +19,10 @@ from collections.abc import Callable
 from time import perf_counter, process_time
 from typing import Literal
 
+from ._internals import get_name
 from .abstract import SkeletalBaseBenchmark
 from .containers import TimingReport
 from .errors import FragmentaryBenchmarkError
-from .helpers import get_name
 from .typeshack import MISSING, P, PerfDeltaMSec, ProcessDeltaMsec, Q, R
 
 
