@@ -4,6 +4,7 @@ from typing import Generic
 from abc import ABC, abstractmethod
 from .helpers import AutoRepr
 from .typeshack import MISSING, P, R, Q
+from .containers import TimingReport
 
 
 class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
@@ -11,14 +12,15 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
         return self.benchmark(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.format_hook(self.perf_counter_delta, self.process_time_delta)
+        report = TimingReport.from_benchmark(self)
+        return self.format_hook(report)
 
     @abstractmethod
     def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
         ...
 
     @abstractmethod
-    def format_hook(self, perf_delta_sec: float, process_time_delta_sec: float) -> str:
+    def format_hook(self, report: TimingReport) -> str:
         pass
 
     @abstractmethod

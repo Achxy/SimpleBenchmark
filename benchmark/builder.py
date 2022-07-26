@@ -5,6 +5,7 @@ from .typeshack import P, R, MISSING, Q
 from time import perf_counter, process_time
 from .helpers import get_name
 from .errors import FragmentaryBenchmarkError
+from .containers import TimingReport
 
 
 class PartialBenchmark(BaseBenchmark[P, R]):
@@ -57,3 +58,7 @@ class SyncBenchmarkBuilder(PartialBenchmark[P, R]):
         self._result = result
         self.post_benchmark_hook()
         return result
+
+    @property
+    def time_report(self) -> TimingReport:
+        return TimingReport.from_benchmark(self)
