@@ -1,7 +1,6 @@
 from .implementation import SyncBenchmark
 from collections.abc import Callable
 from .typeshack import P, R, MilliSeconds, FormatHook
-from .helpers import same_return
 
 
 def sync_benchmark(

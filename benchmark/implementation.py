@@ -1,6 +1,6 @@
 from benchmark.containers import TimingReport
 from .builder import SyncBenchmarkBuilder
-from .helpers import get_name, same_return
+from .helpers import get_name
 from ._internals import default_format_hook, default_post_benchmark_hook
 from .typeshack import (
     P,
