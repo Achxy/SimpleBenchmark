@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import NamedTuple, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, NamedTuple
+
 from .typeshack import PerfDeltaMSec, ProcessDeltaMsec
 
 if TYPE_CHECKING:

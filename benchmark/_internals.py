@@ -1,5 +1,5 @@
-from .typeshack import PerfDeltaMSec, ProcessDeltaMsec, BenchmarkProgenitor
 from .containers import TimingReport
+from .typeshack import BenchmarkProgenitor, PerfDeltaMSec, ProcessDeltaMsec
 
 
 def default_format_hook(report: TimingReport) -> str:

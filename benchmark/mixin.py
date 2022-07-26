@@ -1,11 +1,12 @@
-from typing import Literal
-from .abstract import SkeletalBaseBenchmark
 from collections.abc import Callable
-from .typeshack import P, R, MISSING, Q, PerfDeltaMSec, ProcessDeltaMsec
 from time import perf_counter, process_time
-from .helpers import get_name
-from .errors import FragmentaryBenchmarkError
+from typing import Literal
+
+from .abstract import SkeletalBaseBenchmark
 from .containers import TimingReport
+from .errors import FragmentaryBenchmarkError
+from .helpers import get_name
+from .typeshack import MISSING, P, PerfDeltaMSec, ProcessDeltaMsec, Q, R
 
 
 class PartialBenchmarkMixin(SkeletalBaseBenchmark[P, R]):

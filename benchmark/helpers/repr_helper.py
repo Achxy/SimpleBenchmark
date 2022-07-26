@@ -1,5 +1,6 @@
-from .helper import repr_fmt
 from typing import final
+
+from .helper import repr_fmt
 
 
 class AutoRepr:

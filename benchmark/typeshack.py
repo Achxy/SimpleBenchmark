@@ -1,11 +1,11 @@
-from typing import TypeVar, ParamSpec, Literal, TypeAlias, TYPE_CHECKING
-from enum import Enum
 from collections.abc import Callable
+from enum import Enum
+from typing import TYPE_CHECKING, Literal, ParamSpec, TypeAlias, TypeVar
 
 if TYPE_CHECKING:
-    from .impl import SyncBenchmark
     from .abstract import SkeletalBaseBenchmark
     from .containers import TimingReport
+    from .impl import SyncBenchmark
 else:
     SyncBenchmark = TypeVar("SyncBenchmark")
     SkeletalBaseBenchmark = TypeVar("SkeletalBaseBenchmark")

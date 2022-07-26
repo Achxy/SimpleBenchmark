@@ -1,10 +1,12 @@
 from __future__ import annotations
-from collections.abc import Callable, Awaitable
-from typing import Generic
+
 from abc import ABC, abstractmethod
-from .helpers import AutoRepr
-from .typeshack import MISSING, P, R, Q
+from collections.abc import Awaitable, Callable
+from typing import Generic
+
 from .containers import TimingReport
+from .helpers import AutoRepr
+from .typeshack import MISSING, P, Q, R
 
 
 class SkeletalBaseBenchmark(AutoRepr, ABC, Generic[P, R]):
