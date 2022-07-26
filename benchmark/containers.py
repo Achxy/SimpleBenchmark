@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import NamedTuple
 from .typeshack import AnyBenchmark, PerfDeltaMSec, ProcessDeltaMsec, AllBenchmark
 
@@ -8,7 +9,7 @@ class TimingReport(NamedTuple):
     process_delta: ProcessDeltaMsec
 
     @classmethod
-    def from_benchmark(cls, instance):
+    def from_benchmark(cls, instance) -> TimingReport:
         pf = instance.perf_counter_delta
         pt = instance.process_time_delta
         return cls(instance=instance, perf_delta=pf, process_delta=pt)
