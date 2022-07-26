@@ -4,18 +4,18 @@ from collections.abc import Callable
 
 if TYPE_CHECKING:
     from .impl import SyncBenchmark
+    from .abstract import SkeletalBaseBenchmark
     from .containers import TimingReport
 else:
     SyncBenchmark = TypeVar("SyncBenchmark")
+    SkeletalBaseBenchmark = TypeVar("SkeletalBaseBenchmark")
     TimingReport = TypeVar("TimingReport")
 
 R = TypeVar("R")
 P = ParamSpec("P")
 Q = TypeVar("Q")
 
-AnyBenchmark: TypeAlias = SyncBenchmark
-_TDerived_contra = TypeVar("_TDerived_contra", bound=AnyBenchmark, contravariant=True)
-AllBenchmark = _TDerived_contra | AnyBenchmark
+ContraBenchmark = TypeVar("ContraBenchmark", bound=SyncBenchmark, contravariant=True)
 
 
 class _Sentinel(Enum):
@@ -31,10 +31,11 @@ class _Sentinel(Enum):
 
 
 MISSING: Literal[_Sentinel.MISSING] = _Sentinel.MISSING
+BenchmarkProgenitor: TypeAlias = SkeletalBaseBenchmark
 # NewType is tedious here, simple aliasing aids in legible IDE reccomendations
 Name: TypeAlias = str | None
 MilliSeconds: type[float] = float
 PerfDeltaMSec: TypeAlias = MilliSeconds
 ProcessDeltaMsec: TypeAlias = MilliSeconds
 FormatHook: TypeAlias = Callable[[TimingReport], str]
-PostBenchmarkHook: TypeAlias = Callable[[AnyBenchmark], None]
+PostBenchmarkHook: TypeAlias = Callable[[ContraBenchmark], None]
