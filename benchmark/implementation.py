@@ -19,7 +19,7 @@ _ANON = "<anonymous>"
 class SyncBenchmark(SyncBenchmarkBuilder[P, R]):
     def __init__(
         self,
-        func: Callable[P, R],
+        callable: Callable[P, R],
         *,
         name: Name,
         external_format_hook: FormatHook,
@@ -28,7 +28,7 @@ class SyncBenchmark(SyncBenchmarkBuilder[P, R]):
         self._name = name
         self._fmt_hook = external_format_hook
         self._post_bench_hook = external_post_benchmark_hook
-        super().__init__(func)
+        super().__init__(callable)
 
     def format_hook(self, report: TimingReport) -> str:
         return self._fmt_hook(report)
