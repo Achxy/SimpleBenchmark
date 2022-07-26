@@ -7,6 +7,7 @@ from .typeshack import (
     R,
     FormatHook,
     PerfDeltaMSec,
+    Name,
     ProcessDeltaMsec,
     PostBenchmarkHook,
 )
@@ -20,9 +21,9 @@ class SyncBenchmark(SyncBenchmarkBuilder[P, R]):
         self,
         func: Callable[P, R],
         *,
-        name: str | None = None,
-        external_format_hook: FormatHook = default_format_hook,
-        external_post_benchmark_hook: PostBenchmarkHook = default_post_benchmark_hook,
+        name: Name,
+        external_format_hook: FormatHook,
+        external_post_benchmark_hook: PostBenchmarkHook,
     ) -> None:
         self._name = name
         self._fmt_hook = external_format_hook
