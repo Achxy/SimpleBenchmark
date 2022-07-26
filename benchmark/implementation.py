@@ -1,5 +1,5 @@
 from benchmark.containers import TimingReport
-from .builder import SyncBenchmarkBuilder
+from .mixin import PartialBenchmarkMixin
 from .helpers import get_name
 from ._internals import default_format_hook, default_post_benchmark_hook
 from .typeshack import (
@@ -13,10 +13,8 @@ from .typeshack import (
 )
 from collections.abc import Callable
 
-_ANON = "<anonymous>"
 
-
-class SyncBenchmark(SyncBenchmarkBuilder[P, R]):
+class SyncBenchmark(PartialBenchmarkMixin[P, R]):
     def __init__(
         self,
         callable: Callable[P, R],
@@ -39,7 +37,7 @@ class SyncBenchmark(SyncBenchmarkBuilder[P, R]):
     @property
     def name(self):
         if self._name is None:
-            return get_name(self.function, _ANON)
+            return get_name(self.function, "<anonymous>")
         return self._name
 
     @name.setter

@@ -1,5 +1,5 @@
 from typing import Literal
-from .abstract import BaseBenchmark
+from .abstract import SkeletalBaseBenchmark
 from collections.abc import Callable
 from .typeshack import P, R, MISSING, Q
 from time import perf_counter, process_time
@@ -8,23 +8,28 @@ from .errors import FragmentaryBenchmarkError
 from .containers import TimingReport
 
 
-class PartialBenchmark(BaseBenchmark[P, R]):
+class PartialBenchmarkMixin(SkeletalBaseBenchmark[P, R]):
     def __init__(self, func: Callable[P, R]) -> None:
         self._func: Callable[P, R] = func
         self._result: R | Literal[MISSING] = MISSING
         self._process_delta: float | None = None
         self._perf_delta: float | None = None
 
-    def post_benchmark_hook(self) -> None:
-        self.show_performance()
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
+        return self.benchmark(*args, **kwargs)
 
-    def get_result(self, sentinel: Q = MISSING) -> R | Q:
-        if self._result is MISSING:
-            if sentinel is MISSING:
-                msg = "Benchmark objects have not been invoked and a sentinel argument has not been provided"
-                raise RuntimeError(msg) from FragmentaryBenchmarkError()
-            return sentinel
-        return self._result
+    def __str__(self) -> str:
+        report = self.time_report
+        return self.format_hook(report)
+
+    def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
+        pc, pt = perf_counter(), process_time()
+        result: R = self.function(*args, **kwargs)
+        self._perf_delta = perf_counter() - pc
+        self._process_delta = process_time() - pt
+        self._result = result
+        self.post_benchmark_hook()
+        return result
 
     @property
     def function(self) -> Callable[P, R]:
@@ -47,17 +52,6 @@ class PartialBenchmark(BaseBenchmark[P, R]):
         if self._perf_delta is None:
             raise FragmentaryBenchmarkError()
         return self._perf_delta
-
-
-class SyncBenchmarkBuilder(PartialBenchmark[P, R]):
-    def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
-        pc, pt = perf_counter(), process_time()
-        result: R = self.function(*args, **kwargs)
-        self._perf_delta = perf_counter() - pc
-        self._process_delta = process_time() - pt
-        self._result = result
-        self.post_benchmark_hook()
-        return result
 
     @property
     def time_report(self) -> TimingReport:
