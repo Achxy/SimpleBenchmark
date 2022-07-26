@@ -1,7 +1,7 @@
 from typing import Literal
 from .abstract import SkeletalBaseBenchmark
 from collections.abc import Callable
-from .typeshack import P, R, MISSING, Q
+from .typeshack import P, R, MISSING, Q, PerfDeltaMSec, ProcessDeltaMsec
 from time import perf_counter, process_time
 from .helpers import get_name
 from .errors import FragmentaryBenchmarkError
@@ -42,13 +42,13 @@ class PartialBenchmarkMixin(SkeletalBaseBenchmark[P, R]):
         return self._result
 
     @property
-    def process_time_delta(self) -> float:
+    def process_time_delta(self) -> ProcessDeltaMsec:
         if self._process_delta is None:
             raise FragmentaryBenchmarkError()
         return self._process_delta
 
     @property
-    def perf_counter_delta(self) -> float:
+    def perf_counter_delta(self) -> PerfDeltaMSec:
         if self._perf_delta is None:
             raise FragmentaryBenchmarkError()
         return self._perf_delta
