@@ -7,13 +7,14 @@ from .typeshack import MISSING, P, R, Q
 from .containers import TimingReport
 
 
-class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
+class SkeletalBaseBenchmark(AutoRepr, ABC, Generic[P, R]):
+    @abstractmethod
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
-        return self.benchmark(*args, **kwargs)
+        ...
 
+    @abstractmethod
     def __str__(self) -> str:
-        report = TimingReport.from_benchmark(self)
-        return self.format_hook(report)
+        ...
 
     @abstractmethod
     def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
@@ -26,13 +27,6 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
     @abstractmethod
     def post_benchmark_hook(self) -> None:
         ...
-
-    @abstractmethod
-    def get_result(self, sentinel: Q = MISSING) -> R | Q:
-        ...
-
-    def show_performance(self) -> None:
-        print(self)
 
     @property
     @abstractmethod
@@ -55,7 +49,7 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
         ...
 
 
-class AsyncBaseBenchmark(Awaitable[R], BaseBenchmark[P, R]):
+class AsyncSkeletalBaseBenchmark(Awaitable[R], SkeletalBaseBenchmark[P, R]):
     @property
     @abstractmethod
     def function(self) -> Callable[P, Awaitable[R]]:
