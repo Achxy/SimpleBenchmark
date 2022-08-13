@@ -29,10 +29,13 @@ from .typeshack import (
     PostBenchmarkHook,
     ProcessDeltaMsec,
     R,
+    Slots,
 )
 
 
 class SyncBenchmark(PartialBenchmarkMixin[P, R]):
+    __slots__: Slots = ()
+
     def __init__(
         self,
         callable: Callable[P, R],
@@ -41,9 +44,9 @@ class SyncBenchmark(PartialBenchmarkMixin[P, R]):
         external_format_hook: FormatHook,
         external_post_benchmark_hook: PostBenchmarkHook,
     ) -> None:
-        self._name = name
-        self._fmt_hook = external_format_hook
-        self._post_bench_hook = external_post_benchmark_hook
+        self._name: Name = name
+        self._fmt_hook: FormatHook = external_format_hook
+        self._post_bench_hook: PostBenchmarkHook = external_post_benchmark_hook
         super().__init__(callable)
 
     def format_hook(self, report: TimingReport) -> str:

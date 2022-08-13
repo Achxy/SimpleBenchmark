@@ -23,10 +23,12 @@ from typing import Generic
 
 from ._repr_helper import AutoRepr
 from .containers import TimingReport
-from .typeshack import MISSING, P, Q, R
+from .typeshack import MISSING, P, Q, R, Slots
 
 
 class SkeletalBaseBenchmark(AutoRepr, ABC, Generic[P, R]):
+    __slots__: Slots = ()
+
     @abstractmethod
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
         ...
@@ -69,6 +71,8 @@ class SkeletalBaseBenchmark(AutoRepr, ABC, Generic[P, R]):
 
 
 class AsyncSkeletalBaseBenchmark(Awaitable[R], SkeletalBaseBenchmark[P, R]):
+    __slots__: Slots = ()
+
     @property
     @abstractmethod
     def function(self) -> Callable[P, Awaitable[R]]:

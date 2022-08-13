@@ -16,14 +16,19 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from .typeshack import Slots
+
+
 _FRAGMENTARY_CAUSE_MSG = "Benchmarking object has not been invoked to obtain values such as result, \
 time delta and other runtime obtainable assesssments"
 
 
 class BenchmarkingError(Exception):
-    pass
+    __slots__: Slots = ()
 
 
 class FragmentaryBenchmarkError(BenchmarkingError):
+    __slots__: Slots = ()
+
     def __init__(self, msg: str = _FRAGMENTARY_CAUSE_MSG, *args) -> None:
         super().__init__(msg, *args)
