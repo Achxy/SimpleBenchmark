@@ -55,7 +55,7 @@ class _Sentinel(Enum):
     MISSING = object()
 
 
-Slots: type[tuple[str, ...]] = ClassVar[tuple[str, ...]]
+Slots = ClassVar[tuple[str, ...]]
 All: TypeAlias = Final[tuple[str, ...]]
 MISSING: Literal[_Sentinel.MISSING] = _Sentinel.MISSING
 BenchmarkProgenitor: TypeAlias = SkeletalBaseBenchmark
