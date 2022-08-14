@@ -19,12 +19,12 @@ from collections.abc import Callable
 from enum import Enum
 from typing import (
     TYPE_CHECKING,
+    ClassVar,
     Final,
     Literal,
     ParamSpec,
     TypeAlias,
     TypeVar,
-    ClassVar,
 )
 
 if TYPE_CHECKING:
