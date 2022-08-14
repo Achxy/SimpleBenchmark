@@ -19,7 +19,6 @@ from collections.abc import Callable
 
 from benchmark.containers import TimingReport
 
-from ._internals import default_format_hook, default_post_benchmark_hook, get_name
 from .mixin import PartialBenchmarkMixin
 from .typeshack import (
     FormatHook,
@@ -54,15 +53,3 @@ class SyncBenchmark(PartialBenchmarkMixin[P, R]):
 
     def post_benchmark_hook(self):
         self._post_bench_hook(self)
-
-    @property
-    def name(self):
-        if self._name is None:
-            return get_name(self.function, "<anonymous>")
-        return self._name
-
-    @name.setter
-    def name_setter(self, name: str):
-        if not isinstance(name, str):
-            raise TypeError(f"New name should be a str instance, got {name!r}")
-        self._name = name
