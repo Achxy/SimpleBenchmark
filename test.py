@@ -1,6 +1,6 @@
 from time import sleep
 
-from benchmark.api import sync_benchmark
+from simplebenchmark.api import sync_benchmark
 
 
 @sync_benchmark()

@@ -17,8 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from collections.abc import Callable
 
-from benchmark.containers import TimingReport
-
+from .containers import TimingReport
 from .mixin import PartialBenchmarkMixin
 from .typeshack import (
     FormatHook,
@@ -32,7 +31,7 @@ from .typeshack import (
 
 
 class SyncBenchmark(PartialBenchmarkMixin[P, R]):
-    __slots__: Slots = ()
+    __slots__: Slots = ("_fmt_hook", "_post_bench_hook")
 
     def __init__(
         self,

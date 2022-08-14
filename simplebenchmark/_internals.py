@@ -15,12 +15,13 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from ._helpers import get_name
 from .abstract import SkeletalBaseBenchmark
 from .containers import TimingReport
 
 
 def default_format_hook(report: TimingReport) -> str:
-    name = report.instance
+    name = get_name(report.instance.function, "<anonymous>")
     result = report.instance.result
     pf, pt = report.perf_delta, report.process_delta
     return f"{name} took {pf:.2f} Δperf msec and {pt:.2f} Δprocess msec and returned <{result!r}>"

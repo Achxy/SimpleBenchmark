@@ -19,7 +19,7 @@ from collections.abc import Callable
 from time import perf_counter, process_time
 from typing import Literal
 
-from ._internals import get_name
+from ._helpers import get_name
 from .abstract import SkeletalBaseBenchmark
 from .containers import TimingReport
 from .errors import FragmentaryBenchmarkError
@@ -27,7 +27,7 @@ from .typeshack import MISSING, P, PerfDeltaMSec, ProcessDeltaMsec, Q, R, Slots
 
 
 class PartialBenchmarkMixin(SkeletalBaseBenchmark[P, R]):
-    __slots__: Slots = ("_func",)
+    __slots__: Slots = ("_func", "_result", "_process_delta", "_perf_delta")
 
     def __init__(self, func: Callable[P, R]) -> None:
         self._func: Callable[P, R] = func
