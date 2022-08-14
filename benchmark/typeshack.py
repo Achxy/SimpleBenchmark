@@ -40,8 +40,6 @@ R = TypeVar("R")
 P = ParamSpec("P")
 Q = TypeVar("Q")
 
-ContraBenchmark = TypeVar("ContraBenchmark", bound=SyncBenchmark, contravariant=True)
-
 
 class _Sentinel(Enum):
     """
@@ -58,11 +56,8 @@ class _Sentinel(Enum):
 Slots = ClassVar[tuple[str, ...]]
 All: TypeAlias = Final[tuple[str, ...]]
 MISSING: Literal[_Sentinel.MISSING] = _Sentinel.MISSING
-BenchmarkProgenitor: TypeAlias = SkeletalBaseBenchmark
 # NewType is tedious here, simple aliasing aids in legible IDE reccomendations
-Name: TypeAlias = str | None
-MilliSeconds: type[float] = float
-PerfDeltaMSec: TypeAlias = MilliSeconds
-ProcessDeltaMsec: TypeAlias = MilliSeconds
+PerfDeltaMSec: TypeAlias = float
+ProcessDeltaMsec: TypeAlias = float
 FormatHook: TypeAlias = Callable[[TimingReport], str]
-PostBenchmarkHook: TypeAlias = Callable[[ContraBenchmark], None]
+PostBenchmarkHook: TypeAlias = Callable[[SkeletalBaseBenchmark], None]

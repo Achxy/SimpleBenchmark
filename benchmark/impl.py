@@ -22,7 +22,6 @@ from benchmark.containers import TimingReport
 from .mixin import PartialBenchmarkMixin
 from .typeshack import (
     FormatHook,
-    Name,
     P,
     PerfDeltaMSec,
     PostBenchmarkHook,
@@ -39,11 +38,9 @@ class SyncBenchmark(PartialBenchmarkMixin[P, R]):
         self,
         callable: Callable[P, R],
         *,
-        name: Name,
         external_format_hook: FormatHook,
         external_post_benchmark_hook: PostBenchmarkHook,
     ) -> None:
-        self._name: Name = name
         self._fmt_hook: FormatHook = external_format_hook
         self._post_bench_hook: PostBenchmarkHook = external_post_benchmark_hook
         super().__init__(callable)

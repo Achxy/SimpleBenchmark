@@ -15,10 +15,8 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from typing import Any
-
+from .abstract import SkeletalBaseBenchmark
 from .containers import TimingReport
-from .typeshack import BenchmarkProgenitor, PerfDeltaMSec, ProcessDeltaMsec
 
 
 def default_format_hook(report: TimingReport) -> str:
@@ -28,5 +26,5 @@ def default_format_hook(report: TimingReport) -> str:
     return f"{name} took {pf:.2f} Δperf msec and {pt:.2f} Δprocess msec and returned <{result!r}>"
 
 
-def default_post_benchmark_hook(instance: BenchmarkProgenitor) -> None:
+def default_post_benchmark_hook(instance: SkeletalBaseBenchmark) -> None:
     print(instance)
