@@ -30,9 +30,7 @@ from typing import (
 if TYPE_CHECKING:
     from .abstract import SkeletalBaseBenchmark
     from .containers import TimingReport
-    from .impl import SyncBenchmark
 else:
-    SyncBenchmark = TypeVar("SyncBenchmark")
     SkeletalBaseBenchmark = TypeVar("SkeletalBaseBenchmark")
     TimingReport = TypeVar("TimingReport")
 
