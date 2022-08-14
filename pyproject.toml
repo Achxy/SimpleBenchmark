@@ -2,6 +2,7 @@
 name = "simplebenchmark"
 version = "0.1.0"
 description = "SimpleBenchmark is a tool for benchmarking callable objects in Python."
+authors = ["Achxy"]
 license = "GNU Affero General Public License"
 
 [tool.black]
