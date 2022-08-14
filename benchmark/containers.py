@@ -22,11 +22,11 @@ from typing import TYPE_CHECKING, NamedTuple
 from .typeshack import PerfDeltaMSec, ProcessDeltaMsec
 
 if TYPE_CHECKING:
-    from .impl import SyncBenchmark
+    from .abstract import SkeletalBaseBenchmark
 
 
 class TimingReport(NamedTuple):
-    instance: SyncBenchmark
+    instance: SkeletalBaseBenchmark
     perf_delta: PerfDeltaMSec
     process_delta: ProcessDeltaMsec
 

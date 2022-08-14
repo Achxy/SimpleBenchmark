@@ -1,7 +1,7 @@
 from inspect import isclass
 from typing import Any, final
 from .typeshack import Slots
-from ._internals import get_name
+from ._helpers import get_name
 
 _SEP = ", "
 _KWARG_JOIN = "="

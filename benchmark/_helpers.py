@@ -17,16 +17,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from typing import Any
 
-from .containers import TimingReport
-from .typeshack import BenchmarkProgenitor, PerfDeltaMSec, ProcessDeltaMsec
 
-
-def default_format_hook(report: TimingReport) -> str:
-    name = report.instance
-    result = report.instance.result
-    pf, pt = report.perf_delta, report.process_delta
-    return f"{name} took {pf:.2f} Δperf msec and {pt:.2f} Δprocess msec and returned <{result!r}>"
-
-
-def default_post_benchmark_hook(instance: BenchmarkProgenitor) -> None:
-    print(instance)
+def get_name(obj: Any, default: str | None = None) -> str:
+    ret: Any = getattr(obj, "__name__", default)
+    if not isinstance(default, str) and default is not None:
+        msg = "Expected default value to be 'str' instance or None"
+        raise ValueError(msg)
+    if ret is None:
+        msg = f"{obj!r} has no '__name__' attribute and a default has not been provided"
+        raise TypeError(msg)
+    if not isinstance(ret, str):
+        msg = f"Expected return value of __name__ descriptor to be 'str' instance, got {ret!r} instead"
+        raise ValueError(msg)
+    return ret
