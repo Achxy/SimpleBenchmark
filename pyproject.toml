@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "simplebenchmark"
+version = "0.1.0"
+description = "SimpleBenchmark is a tool for benchmarking callable objects in Python."
+license = "GNU Affero General Public License"
+
+[tool.black]
+line-length = 110
+
+[tool.isort]
+profile = "black"
+combine_as_imports = true
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
