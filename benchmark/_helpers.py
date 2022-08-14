@@ -15,19 +15,18 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
-from .typeshack import Slots
-
-_FRAGMENTARY_CAUSE_MSG = "Benchmarking object has not been invoked to obtain values such as result, \
-time delta and other runtime obtainable assesssments"
+from typing import Any
 
 
-class BenchmarkingError(Exception):
-    __slots__: Slots = ()
-
-
-class FragmentaryBenchmarkError(BenchmarkingError):
-    __slots__: Slots = ()
-
-    def __init__(self, msg: str = _FRAGMENTARY_CAUSE_MSG, *args) -> None:
-        super().__init__(msg, *args)
+def get_name(obj: Any, default: str | None = None) -> str:
+    ret: Any = getattr(obj, "__name__", default)
+    if not isinstance(default, str) and default is not None:
+        msg = "Expected default value to be 'str' instance or None"
+        raise ValueError(msg)
+    if ret is None:
+        msg = f"{obj!r} has no '__name__' attribute and a default has not been provided"
+        raise TypeError(msg)
+    if not isinstance(ret, str):
+        msg = f"Expected return value of __name__ descriptor to be 'str' instance, got {ret!r} instead"
+        raise ValueError(msg)
+    return ret

@@ -15,19 +15,23 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from __future__ import annotations
 
-from .typeshack import Slots
+from typing import TYPE_CHECKING, NamedTuple
 
-_FRAGMENTARY_CAUSE_MSG = "Benchmarking object has not been invoked to obtain values such as result, \
-time delta and other runtime obtainable assesssments"
+from .typeshack import PerfDeltaMSec, ProcessDeltaMsec
 
-
-class BenchmarkingError(Exception):
-    __slots__: Slots = ()
+if TYPE_CHECKING:
+    from .abstract import SkeletalBaseBenchmark
 
 
-class FragmentaryBenchmarkError(BenchmarkingError):
-    __slots__: Slots = ()
+class TimingReport(NamedTuple):
+    instance: SkeletalBaseBenchmark
+    perf_delta: PerfDeltaMSec
+    process_delta: ProcessDeltaMsec
 
-    def __init__(self, msg: str = _FRAGMENTARY_CAUSE_MSG, *args) -> None:
-        super().__init__(msg, *args)
+    @classmethod
+    def from_benchmark(cls, instance) -> TimingReport:
+        pf = instance.perf_counter_delta
+        pt = instance.process_time_delta
+        return cls(instance=instance, perf_delta=pf, process_delta=pt)

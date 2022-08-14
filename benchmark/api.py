@@ -15,19 +15,22 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from collections.abc import Callable
 
-from .typeshack import Slots
-
-_FRAGMENTARY_CAUSE_MSG = "Benchmarking object has not been invoked to obtain values such as result, \
-time delta and other runtime obtainable assesssments"
-
-
-class BenchmarkingError(Exception):
-    __slots__: Slots = ()
+from ._internals import default_format_hook, default_post_benchmark_hook
+from .impl import SyncBenchmark
+from .typeshack import FormatHook, P, PostBenchmarkHook, R
 
 
-class FragmentaryBenchmarkError(BenchmarkingError):
-    __slots__: Slots = ()
+def sync_benchmark(
+    format_hook: FormatHook = default_format_hook,
+    post_benchmark_hook: PostBenchmarkHook = default_post_benchmark_hook,
+) -> Callable[[Callable[P, R]], SyncBenchmark[P, R]]:
+    def wrapper(callable: Callable[P, R]) -> SyncBenchmark[P, R]:
+        return SyncBenchmark[P, R](
+            callable=callable,
+            external_format_hook=format_hook,
+            external_post_benchmark_hook=post_benchmark_hook,
+        )
 
-    def __init__(self, msg: str = _FRAGMENTARY_CAUSE_MSG, *args) -> None:
-        super().__init__(msg, *args)
+    return wrapper

@@ -1,36 +1,53 @@
+"""
+SimpleBenchmark is a tool for benchmarking callable objects in Python.
+Copyright (C) 2022-present  Achxy
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 from __future__ import annotations
-from collections.abc import Callable, Awaitable
-from typing import Generic
+
 from abc import ABC, abstractmethod
-from .helpers import AutoRepr
-from .typeshack import MISSING, P, R, Q
+from collections.abc import Awaitable, Callable
+from typing import Generic
+
+from ._repr_helper import AutoRepr
+from .containers import TimingReport
+from .typeshack import MISSING, P, Q, R, Slots
 
 
-class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
+class SkeletalBaseBenchmark(AutoRepr, ABC, Generic[P, R]):
+    __slots__: Slots = ()
+
+    @abstractmethod
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
-        return self.benchmark(*args, **kwargs)
+        ...
 
+    @abstractmethod
     def __str__(self) -> str:
-        return self.format_hook(self.perf_counter_delta, self.process_time_delta)
+        ...
 
     @abstractmethod
     def benchmark(self, *args: P.args, **kwargs: P.kwargs) -> R:
         ...
 
     @abstractmethod
-    def format_hook(self, perf_delta_sec: float, process_time_delta_sec: float) -> str:
+    def format_hook(self, report: TimingReport) -> str:
         pass
 
     @abstractmethod
     def post_benchmark_hook(self) -> None:
         ...
-
-    @abstractmethod
-    def get_result(self, sentinel: Q = MISSING) -> R | Q:
-        ...
-
-    def show_performance(self) -> None:
-        print(self)
 
     @property
     @abstractmethod
@@ -53,7 +70,9 @@ class BaseBenchmark(AutoRepr, ABC, Generic[P, R]):
         ...
 
 
-class AsyncBaseBenchmark(Awaitable[R], BaseBenchmark[P, R]):
+class AsyncSkeletalBaseBenchmark(Awaitable[R], SkeletalBaseBenchmark[P, R]):
+    __slots__: Slots = ()
+
     @property
     @abstractmethod
     def function(self) -> Callable[P, Awaitable[R]]:

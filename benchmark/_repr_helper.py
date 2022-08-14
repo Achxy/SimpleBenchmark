@@ -1,22 +1,11 @@
 from inspect import isclass
-from typing import Any
+from typing import Any, final
+
+from ._helpers import get_name
+from .typeshack import Slots
 
 _SEP = ", "
 _KWARG_JOIN = "="
-
-
-def get_name(obj: Any, default: str | None = None) -> str:
-    ret: Any = getattr(obj, "__name__", default)
-    if not isinstance(default, str) and default is not None:
-        msg = "Expected default value to be 'str' instance or None"
-        raise ValueError(msg)
-    if ret is None:
-        msg = f"{obj!r} has no '__name__' attribute and a default has not been provided"
-        raise TypeError(msg)
-    if not isinstance(ret, str):
-        msg = f"Expected return value of __name__ descriptor to be 'str' instance, got {ret!r} instead"
-        raise ValueError(msg)
-    return ret
 
 
 def _args_fmt(argument: tuple[Any, ...]) -> str:
@@ -39,3 +28,18 @@ def repr_fmt(cls, *args, **kwargs):
     name = get_name(cls)
     parms = param_fmt(args, kwargs)
     return f"{name}({parms})"
+
+
+class AutoRepr:
+    __slots__: Slots = ("__repr_data__",)
+
+    def __new__(cls: type, *args, **kwargs):
+        self = super().__new__(cls)
+        self.__repr_data__ = args, kwargs
+        return self
+
+    @final
+    def __repr__(self) -> str:
+        cls = type(self)
+        args, kwargs = self.__repr_data__
+        return repr_fmt(cls, *args, **kwargs)

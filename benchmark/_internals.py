@@ -15,19 +15,16 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
-from .typeshack import Slots
-
-_FRAGMENTARY_CAUSE_MSG = "Benchmarking object has not been invoked to obtain values such as result, \
-time delta and other runtime obtainable assesssments"
+from .abstract import SkeletalBaseBenchmark
+from .containers import TimingReport
 
 
-class BenchmarkingError(Exception):
-    __slots__: Slots = ()
+def default_format_hook(report: TimingReport) -> str:
+    name = report.instance
+    result = report.instance.result
+    pf, pt = report.perf_delta, report.process_delta
+    return f"{name} took {pf:.2f} Δperf msec and {pt:.2f} Δprocess msec and returned <{result!r}>"
 
 
-class FragmentaryBenchmarkError(BenchmarkingError):
-    __slots__: Slots = ()
-
-    def __init__(self, msg: str = _FRAGMENTARY_CAUSE_MSG, *args) -> None:
-        super().__init__(msg, *args)
+def default_post_benchmark_hook(instance: SkeletalBaseBenchmark) -> None:
+    print(instance)
